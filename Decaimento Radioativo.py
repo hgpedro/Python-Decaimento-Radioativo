@@ -1,23 +1,34 @@
 from random import random
-from numpy import arange 
 import matplotlib.pyplot as plt
-import sympy
+import numpy as np
 
 N = 1000
-tau = 3.053*60
-passo = 1
-p = 1 - sympy.E**(-passo/tau)
-tmax = 1000
-DeltaT = arange(0,tmax, passo)
-DeltaN = []
+lambd = 0.3
+t = 0
 
-for t in DeltaT:
-    DeltaN.append(N)
+listT = []
+listN = []
+LnN = []
+ln = np.log(N)
+LnN.append(ln)
+listN.append(N)
+listT.append(t)
+
+
+while N > 1:
     decay = 0
     for i in range(N):
-        if random()<p:
+        if random() < lambd:
             decay += 1
-    N -= decay
+    t += 1
+    N = N - decay
+    listN.append(N)
+    listT.append(t)
+    ln = np.log(N)
+    LnN.append(ln)
 
-plt.plot(DeltaT,DeltaN)
+plt.plot(listT,LnN)
+plt.show()
+
+plt.plot(listT,listN)
 plt.show()
